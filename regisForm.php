@@ -98,11 +98,12 @@ if(isset($_POST['submit'])){
                         </div>
                     </div>
                     <div class="d-grid">
-                        <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
+                     <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button><br>
+                     <a href="about.html" class="btn btn-secondary btn-lg">Back</a><br>
                     </div>
                 </form>
             </div>
-        </div>
+        </div><br><br>
     </div>
 
     <!-- Include Bootstrap JS (optional for some components) -->
