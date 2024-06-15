@@ -1,4 +1,3 @@
-<!-- backup -->
 <?php
 include("config2.php");
 
@@ -69,7 +68,8 @@ $result = $mysqli->query("SELECT * FROM feedback");
             resize: vertical;
             height: 150px;
         }
-        button[type="submit"] {
+        button[type="submit"],
+        .back-button {
             background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
@@ -77,6 +77,11 @@ $result = $mysqli->query("SELECT * FROM feedback");
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button[type="submit"] {
+            margin-right: 10px;
         }
         .message {
             margin-top: 20px;
@@ -109,6 +114,7 @@ $result = $mysqli->query("SELECT * FROM feedback");
         <textarea id="inputText" name="inputText" placeholder="Tell about your experience!" rows="4" cols="50"></textarea>
         <br><br>
         <button type="submit" name="submit">Submit</button>
+        <a href="about.html" class="back-button">Back</a>
     </form>
 </div>
 </body>

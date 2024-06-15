@@ -5,24 +5,35 @@ include ('config.php');
 $alertClass = '';
 $alertMessage = '';
 
-if(isset($_POST['submit'])){
-    $uName=$_POST['uName'];
-    $uMatrixNo=$_POST['uMatrixNo'];
-    $phoneNum=$_POST['phoneNum'];
-    $email=$_POST['email'];
-    $facultyName=$_POST['facultyName'];
-    $reason=$_POST['reason'];
+if (isset($_POST['submit'])) {
+    $uName = $_POST['uName'];
+    $uMatrixNo = $_POST['uMatrixNo'];
+    $phoneNum = $_POST['phoneNum'];
+    $email = $_POST['email'];
+    $facultyName = $_POST['facultyName'];
+    $reason = $_POST['reason'];
 
-    $query=mysqli_query($con, "INSERT INTO user (uName,uMatrixNo,phoneNum,email,facultyName,reason) VALUES ('$uName','$uMatrixNo','$phoneNum','$email','$facultyName','$reason')");
-    if($query)
-    {
-        // Success message
-        $alertClass = 'alert alert-success';
-        $alertMessage = 'Data inserted successfully';
-    }else{
-        // Error message
+    // Server-side validation for required fields and specific formats
+    if (empty($uMatrixNo) || empty($email)) {
         $alertClass = 'alert alert-danger';
-        $alertMessage = 'There was an error inserting data';
+        $alertMessage = 'Matrix number and email are required fields.';
+    } elseif (!preg_match("/^[A-Z][A-Z][0-9]{6}$/", $uMatrixNo)) {
+        $alertClass = 'alert alert-danger';
+        $alertMessage = 'Matrix number format is invalid (e.g., DI220149).';
+    } elseif (!preg_match("/^[a-z0-9._%+-]+@student\.uthm\.edu\.my$/", $email)) {
+        $alertClass = 'alert alert-danger';
+        $alertMessage = 'Please enter a valid email address (e.g., di220149@student.uthm.edu.my).';
+    } else {
+        $query = mysqli_query($con, "INSERT INTO user (uName, uMatrixNo, phoneNum, email, facultyName, reason) VALUES ('$uName', '$uMatrixNo', '$phoneNum', '$email', '$facultyName', '$reason')");
+        if ($query) {
+            // Success message
+            $alertClass = 'alert alert-success';
+            $alertMessage = 'Data inserted successfully';
+        } else {
+            // Error message
+            $alertClass = 'alert alert-danger';
+            $alertMessage = 'There was an error inserting data';
+        }
     }
 }
 ?>
@@ -58,9 +69,9 @@ if(isset($_POST['submit'])){
                     </div>
                     <div class="mb-3">
                         <label for="uMatrixNo" class="form-label">Matrix no:</label>
-                        <input type="text" class="form-control" name="uMatrixNo" placeholder="Enter matrix no" required>
+                        <input type="text" class="form-control" name="uMatrixNo" placeholder="Enter matrix no" pattern="^[A-Z][A-Z][0-9]{6}$" required>
                         <div class="invalid-feedback">
-                            Please enter your matrix number.
+                            Please enter a valid matrix number (e.g., DI220149).
                         </div>
                     </div>
                     <div class="mb-3">
@@ -72,9 +83,9 @@ if(isset($_POST['submit'])){
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" name="email" placeholder="Enter email" required>
+                        <input type="email" class="form-control" name="email" placeholder="Enter email" pattern="[a-z0-9._%+-]+@student\.uthm\.edu\.my$" required>
                         <div class="invalid-feedback">
-                            Please enter a valid email address.
+                            Please enter a valid email address (e.g., di220149@student.uthm.edu.my).
                         </div>
                     </div>
                     <div class="mb-3">
